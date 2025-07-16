@@ -2,9 +2,9 @@
 
 import React from "react";
 import { SafeAreaView, StyleSheet, StatusBar, Platform } from "react-native";
-import LoginPage from "./src/screen/Auth/Login";
 import { useEffect } from "react";
-import { DevSettings, NativeModules } from 'react-native';
+import { DevSettings, NativeModules } from 'react-native'; 
+import RootNavigation from "./src/navigation";
 
 
 function App(): React.JSX.Element {
@@ -20,7 +20,7 @@ function App(): React.JSX.Element {
   }, []);
   return (
     <SafeAreaView style={styles.container}>
-      <LoginPage/>
+      <RootNavigation/>
     </SafeAreaView>
   );
 }
