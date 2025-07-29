@@ -4,13 +4,13 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { ScreenNames } from '../../../../constants/screens';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackNavigation} from '../../../../navigation/types';
+import {LoggedOutStackType} from '../../../../navigation/types';
 
 interface IAuthHeader {
     activeTab: 'login' | 'registration';
 }
 export default function AuthHeader({ activeTab }: IAuthHeader) {
-    const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
+    const navigation = useNavigation<StackNavigationProp<LoggedOutStackType>>();
     const navigateToLogin = () => {
         navigation.navigate(ScreenNames.LOGIN_PAGE);
     }

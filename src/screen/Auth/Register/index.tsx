@@ -6,7 +6,7 @@ import Input from '../../../common/components/Input/index';
 import {Formik, FormikHelpers, FormikValues} from 'formik';
 import {RegistrationSchema} from '../utils/validations';
 import DefaultButton from '../../../common/components/DefaultButton/index';
-import {useEffect, useState} from 'react';
+import { useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import {CommonActions, useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -57,13 +57,13 @@ const registrateUser = async (
         }
     }
 };
-useEffect(() => {
-const subscriber = auth().onAuthStateChanged(user => {
-    console.log('user', user);
-});
+// useEffect(() => {
+// const subscriber = auth().onAuthStateChanged(user => {
+//     console.log('user', user);
+// });
 
-return subscriber;
-}, []);
+// return subscriber;
+// }, []);
 
 
     return (
