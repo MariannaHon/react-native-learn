@@ -1,18 +1,35 @@
 import { NavigationContainer } from "@react-navigation/native"
-import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import LoginPage from "../screen/Auth/Login"
-import Registration from "../screen/Auth/Register"
-import { ScreenNames } from "../constants/screens";
-import {RootStackNavigation} from './types';
+import LoggedInStack from './LoggedInStack';
+import LoggedOutStack from './LoggedOutStack';
+import auth from '@react-native-firebase/auth';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
-const Stack = createNativeStackNavigator<RootStackNavigation>()
 
 export default function RootNavigation() {
+
+    const [initializing, setInitializing] = useState(true);
+    const [user, setUser] = useState<any>(null);
+
+    useEffect(() => {
+        const unsubscribe = auth().onAuthStateChanged(user => {
+            setUser(user);
+            if (initializing) setInitializing(false);
+        });
+        return unsubscribe;
+        }, [initializing]);
+    
+        if (initializing) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" />
+            </View>
+        );
+    }
+
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName={ScreenNames.LOGIN_PAGE} screenOptions={{headerShown:false}}>
-                <Stack.Screen name={ScreenNames.LOGIN_PAGE} component={LoginPage} />
-                <Stack.Screen name={ScreenNames.REGISTRATION_PAGE} component={Registration}/>
-            </Stack.Navigator>
-        </NavigationContainer>)
+            {user ? <LoggedInStack /> : <LoggedOutStack />}
+        </NavigationContainer>
+    );
 }

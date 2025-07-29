@@ -8,6 +8,10 @@ import {RegistrationSchema} from '../utils/validations';
 import DefaultButton from '../../../common/components/DefaultButton/index';
 import {useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
+import {CommonActions, useNavigation} from '@react-navigation/core';
+import {StackNavigationProp} from '@react-navigation/stack';
+import { RootStackNavigation } from '../../../navigation/types';
+import {ScreenNames} from '../../../constants/screens';
 
 interface ITouched {
     email: boolean;
@@ -21,6 +25,8 @@ export default function Registration() {
     confirmPassword: false,
 });
     
+const navigation = useNavigation<StackNavigationProp<RootStackNavigation>>();
+    
 const registrateUser = async (
     email: string,
     password: string,
@@ -32,7 +38,15 @@ const registrateUser = async (
         password,
         );
         console.log('result', result);
-        
+        if (result.user) {
+            navigation.dispatch(
+                CommonActions.reset({
+                    index: 1,
+                    routes: [{name: ScreenNames.LOGGED_IN_STACK}],
+                }),
+            );
+        }
+
     } catch (e) {
         console.log('e', e);
         if (typeof e === 'object' && e !== null && 'code' in e) {
